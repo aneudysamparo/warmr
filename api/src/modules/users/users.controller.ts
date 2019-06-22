@@ -21,6 +21,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @ApiUseTags('User')
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(
     private usersService: UsersService,
@@ -42,7 +43,6 @@ export class UsersController {
 
   @Patch('/current')
   @UseGuards(AuthGuard())
-  @UseInterceptors(ClassSerializerInterceptor)
   updateCurrentUser(
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
     @GetUser() user: User,
@@ -52,7 +52,6 @@ export class UsersController {
 
   @Patch('/current/password')
   @UseGuards(AuthGuard())
-  @UseInterceptors(ClassSerializerInterceptor)
   updatePassword(
     @Body(ValidationPipe) updatePasswordDto: UpdatePasswordDto,
     @GetUser() user: User,

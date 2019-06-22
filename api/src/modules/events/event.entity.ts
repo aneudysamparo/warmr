@@ -1,6 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { EventStatus } from './event-status.enum';
 import { User } from '../users/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -26,19 +27,6 @@ export class Event extends BaseEntity {
   user: User;
 
   @Column()
+  @Exclude()
   userId: number;
 }
-
-const alert = {
-  id: 19203,
-  userId: 234,
-  title: 'Elle',
-  description: 'Our apartment',
-  status: 'ACTIVE',
-  location: {
-    latitude: 19.1209301923,
-    longitude: 11.292329329,
-  },
-  distance: 50,
-  frequency: 'ONCE',
-};

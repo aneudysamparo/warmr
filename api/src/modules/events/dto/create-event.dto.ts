@@ -1,12 +1,13 @@
-import { IsNotEmpty } from 'class-validator';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 export class CreateEventDto {
   @ApiModelProperty()
   @IsNotEmpty()
   title: string;
 
-  @ApiModelProperty()
+  @ApiModelPropertyOptional()
+  @IsOptional()
   @IsNotEmpty()
   description: string;
 }

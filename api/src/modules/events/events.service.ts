@@ -52,16 +52,6 @@ export class EventsService {
     return found;
   }
 
-  async deleteEvent(
-    id: number,
-    user: User,
-  ): Promise<void> {
-    const result = await this.eventRepository.delete({ id, userId: user.id });
-    if (result.affected === 0) {
-      throw new NotFoundException(`Event with ID: '${id} not found`);
-    }
-  }
-
   async updateEvent(
     id: number,
     updateEventDto: UpdateEventDto,
@@ -76,5 +66,15 @@ export class EventsService {
     });
     await event.save();
     return event;
+  }
+
+  async deleteEvent(
+    id: number,
+    user: User,
+  ): Promise<void> {
+    const result = await this.eventRepository.delete({ id, userId: user.id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Event with ID: '${id} not found`);
+    }
   }
 }
