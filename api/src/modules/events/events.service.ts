@@ -5,9 +5,8 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventRepository } from './event.repository';
 import { Event } from './event.entity';
-import { EventStatus } from './event-status.enum';
+import { EventStatus } from './types/event-status.enum';
 import { User } from '../users/user.entity';
-import { CheckLocationDto } from 'dist/modules/events/dto/check-location.dto';
 import { getDistance } from './util/location';
 
 @Injectable()

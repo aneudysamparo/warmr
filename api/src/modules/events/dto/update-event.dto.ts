@@ -1,5 +1,5 @@
 import { IsOptional, IsIn } from 'class-validator';
-import { EventStatus } from '../event-status.enum';
+import { EventStatus } from '../types/event-status.enum';
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateEventDto {

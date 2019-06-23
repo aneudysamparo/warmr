@@ -1,0 +1,25 @@
+{
+  "id": 129382,
+  "title": "My Event",
+  "description": "An event description!",
+  "status": "ACTIVE",
+  "criteria": {
+    "locations": [
+      {
+        "latitude": 17.2929282223,
+        "Longitude": 17.2929281111,
+        "radius": 100
+      }
+    ],
+    "places": [
+      {
+        "keywords": [
+          "mcdonalds",
+          "burger king"
+        ],
+        "radius": 100
+      }
+    ]
+  },
+  "userId": 23414
+}

@@ -1,7 +1,8 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { EventStatus } from './event-status.enum';
-import { User } from '../users/user.entity';
 import { Exclude } from 'class-transformer';
+import { User } from '../users/user.entity';
+import { EventStatus } from './types/event-status.enum';
+import { Criteria } from './types/criteria.interface';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -17,8 +18,9 @@ export class Event extends BaseEntity {
   @Column()
   status: EventStatus;
 
+  // { latitude: number, longitude: number }
   @Column('simple-json')
-  location: { latitude: number, longitude: number };
+  criteria: Criteria;
 
   @Column()
   distance: number;

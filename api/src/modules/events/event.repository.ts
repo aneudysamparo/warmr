@@ -1,7 +1,7 @@
 import { Event } from './event.entity';
 import { Repository, EntityRepository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
-import { EventStatus } from './event-status.enum';
+import { EventStatus } from './types/event-status.enum';
 import { GetEventsFilterDto } from './dto/get-events-filter.dto';
 import { User } from '../users/user.entity';
 
