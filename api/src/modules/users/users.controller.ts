@@ -28,7 +28,7 @@ export class UsersController {
   ) { }
 
   @Post()
-  createUser(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<void> {
+  createUser(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<{ accessToken: string }> {
     return this.usersService.createUser(createUserDto);
   }
 

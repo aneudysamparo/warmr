@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
@@ -13,10 +14,14 @@ export class UsersService {
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
     private jwtService: JwtService,
+    private authService: AuthService,
   ) { }
 
   async createUser(createUserDto: CreateUserDto) {
-    return this.userRepository.createUser(createUserDto);
+    const { username, password } = createUserDto;
+    const authCredentialsDto = { username, password };
+    await this.userRepository.createUser(createUserDto);
+    return this.authService.logIn(authCredentialsDto);
   }
 
   async getUserById(
