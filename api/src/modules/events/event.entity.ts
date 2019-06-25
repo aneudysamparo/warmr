@@ -18,12 +18,8 @@ export class Event extends BaseEntity {
   @Column()
   status: EventStatus;
 
-  // { latitude: number, longitude: number }
   @Column('simple-json')
   criteria: Criteria;
-
-  @Column()
-  distance: number;
 
   @ManyToOne((type) => User, (user) => user.events, { eager: false })
   user: User;

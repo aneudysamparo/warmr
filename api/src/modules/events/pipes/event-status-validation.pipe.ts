@@ -17,7 +17,6 @@ export class EventStatusValidationPipe implements PipeTransform {
   }
 
   private isStatusValid(status: any) {
-    const index = this.allowedStatuses.indexOf(status);
-    return index !== -1;
+    return this.allowedStatuses.includes(status);
   }
 }

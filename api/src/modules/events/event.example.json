@@ -4,14 +4,14 @@
   "description": "An event description!",
   "status": "ACTIVE",
   "criteria": {
-    "locations": [
+    "location": [
       {
         "latitude": 17.2929282223,
         "Longitude": 17.2929281111,
         "radius": 100
       }
     ],
-    "places": [
+    "place": [
       {
         "keywords": [
           "mcdonalds",
