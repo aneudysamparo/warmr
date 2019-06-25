@@ -41,7 +41,7 @@ export class EventsService {
     updateEventDto: UpdateEventDto,
     user: User,
   ): Promise<Event> {
-    if (updateEventDto.id !== id) {
+    if (updateEventDto.id && updateEventDto.id !== id) {
       throw new BadRequestException(`ID of entity cannot be updated. Check that URL and request payload ID match`);
     }
     const event = await this.getEventById(id, user);
