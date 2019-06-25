@@ -35,7 +35,7 @@ export class EventRepository extends Repository<Event> {
   ): Promise<Event> {
     const event = new Event();
     event.user = user;
-
+    /* Add all values from payload to event entity */
     Object.entries(createEventDto)
       .forEach(([key, value]) => {
         event[key] = value;
