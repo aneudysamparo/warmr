@@ -10,6 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = app.get('ConfigService').get('server.port');
 
+  /* Enable validation globally. Strictly forbids extraneous fields */
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -28,6 +29,7 @@ async function bootstrap() {
     }),
   );
 
+  /* Set up Swagger API docs @ /api/docs */
   const options = new DocumentBuilder()
     .setTitle('Warmr API')
     .setDescription('A location based productivity API')
@@ -37,6 +39,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/docs', app, document);
 
+  /* Start server */
   await app.listen(port);
   logger.log(`Server started and listening @ port: ${port}`);
 }

@@ -6,9 +6,11 @@ import { EventsModule } from './events/events.module';
 import { ConfigModule, ConfigService } from 'nestjs-config';
 import * as path from 'path';
 
+const configPath = path.resolve(__dirname, '../config/**/!(*.d).{ts,js}');
+
 @Module({
   imports: [
-    ConfigModule.load(path.resolve(__dirname, '../config/**/!(*.d).{ts,js}')),
+    ConfigModule.load(configPath),
     TypeOrmModule.forRootAsync({
       useFactory: async (config: ConfigService) => config.get('database'),
       inject: [ConfigService],

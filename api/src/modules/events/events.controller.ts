@@ -12,32 +12,25 @@ import {
   UseGuards,
   ValidationPipe,
   ParseIntPipe,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiUseTags } from '@nestjs/swagger';
 import { EventsService } from './events.service';
+import { Event } from './event.entity';
+import { GetUser } from '../users/get-user.decorator';
+import { User } from '../users/user.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { GetEventsFilterDto } from './dto/get-events-filter.dto';
-import { Event } from './event.entity';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from '../users/get-user.decorator';
-import { User } from '../users/user.entity';
-import { ApiUseTags } from '@nestjs/swagger';
-// import { LocationDto } from './dto/location.dto';
 
 @ApiUseTags('Event')
 @Controller('events')
 @UseGuards(AuthGuard())
+@UseInterceptors(ClassSerializerInterceptor)
 export class EventsController {
   constructor(private eventsService: EventsService) { }
-
-  // @Post('/check')
-  // @UsePipes(ValidationPipe)
-  // checkLocation(
-  //   @Body() locationDto: LocationDto,
-  //   @GetUser() user: User,
-  // ): Promise<Event[]> {
-  //   return this.eventsService.checkLocation(locationDto, user);
-  // }
 
   @Post()
   @UsePipes(ValidationPipe)

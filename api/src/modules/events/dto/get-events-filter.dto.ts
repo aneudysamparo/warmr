@@ -1,6 +1,5 @@
 import { IsOptional, IsIn, IsNotEmpty } from 'class-validator';
-import { EventStatus } from '../event-status.enum';
-
+import { EventStatus } from '../types/event-status.enum';
 
 export class GetEventsFilterDto {
   @IsOptional()
