@@ -1,23 +1,41 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, TextInput, Button } from "react-native";
-import { signIn } from "../../services/authService";
+import React, { Component } from 'react';
+import {
+  StyleSheet, View, Text, TextInput, Button,
+} from 'react-native';
+import { logIn } from '../../services/authService';
 
 class SignInScreen extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
+  }
 
-  signIn = async () => {
-    await signIn();
-    this.props.navigation.navigate("App");
+  logIn = async () => {
+    const { username, password } = this.state;
+    await logIn({ username, password });
+    this.props.navigation.navigate('App');
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text>Username</Text>
-        <TextInput style={styles.input} />
+        <TextInput
+          onChangeText={(username) => this.setState({ username })}
+          style={styles.input}
+          textContentType="username"
+        />
         <Text>Password</Text>
-        <TextInput style={styles.input} />
-        <Button title="Sign in" onPress={() => this.signIn()} />
+        <TextInput
+          onChangeText={(password) => this.setState({ password })}
+          style={styles.input}
+          secureTextEntry
+          textContentType="password"
+        />
+        <Button title="Sign in" onPress={() => this.logIn()} />
       </View>
     );
   }
@@ -26,17 +44,17 @@ class SignInScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
-    width: "50%",
+    width: '50%',
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 15
-  }
+    marginBottom: 15,
+  },
 });
 
 export default SignInScreen;
