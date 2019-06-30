@@ -1,7 +1,7 @@
 import { Event } from './event.entity';
 import { Repository, EntityRepository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
-import { EventStatus } from './event-status.enum';
+import { EventStatus } from './types/event-status.enum';
 import { GetEventsFilterDto } from './dto/get-events-filter.dto';
 import { User } from '../users/user.entity';
 
@@ -33,12 +33,16 @@ export class EventRepository extends Repository<Event> {
     createEventDto: CreateEventDto,
     user: User,
   ): Promise<Event> {
-    const { title, description } = createEventDto;
     const event = new Event();
-    event.title = title;
-    event.description = description;
-    event.status = EventStatus.ACTIVE;
     event.user = user;
+    /* Add all values from payload to event entity */
+    Object.entries(createEventDto)
+      .forEach(([key, value]) => {
+        event[key] = value;
+      });
+    if (!event.status) {
+      event.status = EventStatus.ACTIVE;
+    }
     await event.save();
     delete event.user;
     return event;

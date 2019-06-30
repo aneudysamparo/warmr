@@ -1,14 +1,11 @@
-import { Injectable, NotFoundException, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsFilterDto } from './dto/get-events-filter.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventRepository } from './event.repository';
 import { Event } from './event.entity';
-import { EventStatus } from './event-status.enum';
 import { User } from '../users/user.entity';
-import { CheckLocationDto } from 'dist/modules/events/dto/check-location.dto';
-import { getDistance } from './util/location';
 
 @Injectable()
 export class EventsService {
@@ -16,19 +13,6 @@ export class EventsService {
     @InjectRepository(EventRepository)
     private eventRepository: EventRepository,
   ) { }
-
-  // async checkLocation(checkLocationDto: CheckLocationDto, user: User): Promise<Event[]> {
-  //   const { latitude, longitude } = checkLocationDto;
-
-  //   const events = await this.getEvents(null, user);
-
-  //   const nearbyEvents = events.filter((event) => {
-  //     const { latitude: eventLat, longitude: eventLon } = event.location;
-  //     const distance = getDistance(latitude, longitude, eventLat, eventLon);
-  //     return distance < event.distance;
-  //   });
-  //   return nearbyEvents;
-  // }
 
   async createEvent(createEventDto: CreateEventDto, user: User): Promise<Event> {
     return this.eventRepository.createEvent(createEventDto, user);
@@ -52,22 +36,12 @@ export class EventsService {
     return found;
   }
 
-  async deleteEvent(
-    id: number,
-    user: User,
-  ): Promise<void> {
-    const result = await this.eventRepository.delete({ id, userId: user.id });
-    if (result.affected === 0) {
-      throw new NotFoundException(`Event with ID: '${id} not found`);
-    }
-  }
-
   async updateEvent(
     id: number,
     updateEventDto: UpdateEventDto,
     user: User,
   ): Promise<Event> {
-    if (updateEventDto.id !== id) {
+    if (updateEventDto.id && updateEventDto.id !== id) {
       throw new BadRequestException(`ID of entity cannot be updated. Check that URL and request payload ID match`);
     }
     const event = await this.getEventById(id, user);
@@ -76,5 +50,15 @@ export class EventsService {
     });
     await event.save();
     return event;
+  }
+
+  async deleteEvent(
+    id: number,
+    user: User,
+  ): Promise<void> {
+    const result = await this.eventRepository.delete({ id, userId: user.id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Event with ID: '${id} not found`);
+    }
   }
 }

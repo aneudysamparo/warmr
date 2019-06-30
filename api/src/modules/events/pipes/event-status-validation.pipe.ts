@@ -1,5 +1,5 @@
 import { PipeTransform, BadRequestException } from '@nestjs/common';
-import { EventStatus } from '../event-status.enum';
+import { EventStatus } from '../types/event-status.enum';
 
 export class EventStatusValidationPipe implements PipeTransform {
   readonly allowedStatuses = [
@@ -17,7 +17,6 @@ export class EventStatusValidationPipe implements PipeTransform {
   }
 
   private isStatusValid(status: any) {
-    const index = this.allowedStatuses.indexOf(status);
-    return index !== -1;
+    return this.allowedStatuses.includes(status);
   }
 }
