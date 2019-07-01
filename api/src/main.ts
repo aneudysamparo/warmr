@@ -1,3 +1,6 @@
+/* @TODO Remove dotenv config when we figure out how to inject config values into modules.
+ * Ex: jwt values in auth.module
+ */
 import { config } from 'dotenv';
 config();
 
@@ -23,8 +26,10 @@ async function bootstrap() {
     }),
   );
 
-  /* Middleware */
+  /* Custom logging */
   app.use(httpLogger);
+
+  /* Security Middleware */
   app.use(helmet());
   app.enableCors();
   app.use(
