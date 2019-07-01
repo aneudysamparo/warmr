@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TextInput, Button,
+  StyleSheet, View, Text, TextInput, Button, KeyboardAvoidingView,
 } from 'react-native';
 import { Header } from 'react-navigation';
 import { registerUser } from '../../services/apiService';
@@ -28,37 +28,39 @@ class SignUpScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Email</Text>
-        <TextInput
-          onChangeText={(email) => this.setState({ email })}
-          autoCompleteType="email"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          autoCapitalize="none"
-          style={styles.input}
-        />
+      <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + 20} behavior="padding">
+        <View style={styles.container}>
+          <View><Text>Email</Text></View>
+          <TextInput
+            onChangeText={(email) => this.setState({ email })}
+            autoCompleteType="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            autoCapitalize="none"
+            style={styles.input}
+          />
 
-        <Text>Username</Text>
-        <TextInput
-          onChangeText={(username) => this.setState({ username })}
-          autoCompleteType="username"
-          textContentType="username"
-          autoCapitalize="none"
-          style={styles.input}
-        />
+          <View><Text>Username</Text></View>
+          <TextInput
+            onChangeText={(username) => this.setState({ username })}
+            autoCompleteType="username"
+            textContentType="username"
+            autoCapitalize="none"
+            style={styles.input}
+          />
 
-        <Text>Password</Text>
-        <TextInput
-          onChangeText={(password) => this.setState({ password })}
-          autoCompleteType="password"
-          textContentType="password"
-          autoCapitalize="none"
-          secureTextEntry
-          style={styles.input}
-        />
-        <Button title="Sign Up" onPress={this.registerUser} />
-      </View>
+          <View><Text>Password</Text></View>
+          <TextInput
+            onChangeText={(password) => this.setState({ password })}
+            autoCompleteType="password"
+            textContentType="password"
+            autoCapitalize="none"
+            secureTextEntry
+            style={styles.input}
+          />
+          <Button title="Sign Up" onPress={this.registerUser} />
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
