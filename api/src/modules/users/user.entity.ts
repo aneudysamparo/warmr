@@ -4,7 +4,7 @@ import { Event } from '../events/event.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
-@Unique(['username'])
+@Unique(['username', 'email'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

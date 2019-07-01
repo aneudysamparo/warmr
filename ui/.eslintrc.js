@@ -22,7 +22,8 @@ module.exports = {
     'react',
   ],
   rules: {
-    'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'arrow-parens': [2, 'always'],
+    'no-use-before-define': ['error', { variables: false }], // Allow StyleSheet declarations below RN components
   },
 };

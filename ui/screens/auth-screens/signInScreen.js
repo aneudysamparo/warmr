@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, View, Text, TextInput, Button,
+  StyleSheet, ScrollView, View, Text, TextInput, Button, KeyboardAvoidingView,
 } from 'react-native';
+import { Header } from 'react-navigation';
 import { logIn } from '../../services/authService';
 
 class SignInScreen extends Component {
@@ -21,22 +22,30 @@ class SignInScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Username</Text>
-        <TextInput
-          onChangeText={(username) => this.setState({ username })}
-          style={styles.input}
-          textContentType="username"
-        />
-        <Text>Password</Text>
-        <TextInput
-          onChangeText={(password) => this.setState({ password })}
-          style={styles.input}
-          secureTextEntry
-          textContentType="password"
-        />
-        <Button title="Sign in" onPress={() => this.logIn()} />
-      </View>
+      <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + 20} behavior="padding">
+        <View style={styles.container}>
+          <View>
+            <Text>Username</Text>
+          </View>
+          <TextInput
+            onChangeText={(username) => this.setState({ username })}
+            style={styles.input}
+            textContentType="username"
+            autoCapitalize="none"
+          />
+          <View>
+            <Text>Password</Text>
+          </View>
+          <TextInput
+            onChangeText={(password) => this.setState({ password })}
+            style={styles.input}
+            secureTextEntry
+            textContentType="password"
+            autoCapitalize="none"
+          />
+          <Button title="Sign in" onPress={this.logIn} />
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }

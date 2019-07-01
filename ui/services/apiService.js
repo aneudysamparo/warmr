@@ -1,20 +1,28 @@
 import { AsyncStorage } from 'react-native';
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
 import Http from './httpService';
 import { TOKEN_TYPE, TOKEN_NAME } from './constants';
 
 const http = Http();
 
 /* Auth */
-const createToken = ({ username, password }) => http.post('/auth/login', { username, password });
+const createToken = ({ username, password }) => http.post('/auth/login', { username: username.toLowerCase(), password });
 
 /* User */
-const createUser = async ({ username, password }) => {
-  const userResponse = await http.post('/users', { username, password });
-  const { accessToken } = userResponse.data;
 
-  await Keychain.setGenericPassword(username, password);
-  await AsyncStorage.setItem(TOKEN_NAME, accessToken);
+/* Create user, store returned auth token, and save username/password in secure store */
+const registerUser = async (credentials) => {
+  const username = credentials.username.toLowerCase();
+  const { email, password } = credentials;
+  const userResponse = await http.post('/users', { username, email, password });
+  const { accessToken } = userResponse.data;
+  if (accessToken) {
+    /* Store auth token in async storage */
+    await AsyncStorage.setItem(TOKEN_NAME, accessToken);
+    /* Store credentials in secure store */
+    await SecureStore.setItemAsync('username', username);
+    await SecureStore.setItemAsync('password', password);
+  }
   return accessToken;
 };
 
@@ -22,18 +30,26 @@ const getCurrentUser = () => http.get('/users/current');
 const updatePassword = (password) => http.patch('/users/current/password', { password });
 
 /* Event */
-const getEvents = (query) => http.get('/events', query);
+const getEvents = async (query) => {
+  const eventsResponse = await http.get('/events', query);
+  return eventsResponse.data;
+};
 
 /* Set the auth token before all requests */
-http.interceptors.request.use((config) => {
-  const token = AsyncStorage.getItem(TOKEN_NAME);
+http.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem(TOKEN_NAME);
   config.headers.Authorization = token ? `${TOKEN_TYPE} ${token}` : '';
   return config;
 });
-/* Attempt to reauthenticate user on 401 response: https://github.com/axios/axios/issues/934 */
+
+/**
+ * Attempt to reauthenticate user on 401 response: https://github.com/axios/axios/issues/934
+ * On 401: Get username/password from secure store, get and store new auth token, retry request
+ */
 http.interceptors.response.use(null, async (error) => {
   if (error.config && error.response && error.response.status === 401) {
-    const { username, password } = await Keychain.getGenericPassword();
+    const username = await SecureStore.getItemAsync('username');
+    const password = await SecureStore.getItemAsync('password');
     const authResponse = await createToken({ username, password });
     const { accessToken } = authResponse.data;
     await AsyncStorage.setItem(TOKEN_NAME, accessToken);
@@ -44,7 +60,7 @@ http.interceptors.response.use(null, async (error) => {
 
 export {
   createToken,
-  createUser,
+  registerUser,
   getCurrentUser,
   updatePassword,
   getEvents,

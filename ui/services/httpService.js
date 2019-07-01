@@ -5,9 +5,7 @@ const HttpService = (options) => {
     baseURL: 'http://10.0.0.153:3000',
     method: 'get',
     headers: {
-      common: {
-        'Content-Type': 'application/json',
-      },
+      'Content-Type': 'application/json',
     },
   };
   /* Create custom instance */

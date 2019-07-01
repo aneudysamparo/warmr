@@ -1,9 +1,13 @@
+import { config } from 'dotenv';
+config();
+
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './modules/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
+import { httpLogger } from './common/middleware/logger.middleware';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -19,7 +23,8 @@ async function bootstrap() {
     }),
   );
 
-  /* Security Middleware */
+  /* Middleware */
+  app.use(httpLogger);
   app.use(helmet());
   app.enableCors();
   app.use(
