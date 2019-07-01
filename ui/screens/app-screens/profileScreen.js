@@ -7,14 +7,15 @@ import { logOut } from '../../services/authService';
 class ProfileScreen extends Component {
   logOut = async () => {
     await logOut();
-    this.props.navigation.navigate('AuthLoading');
+    const { navigation } = this.props;
+    navigation.navigate('AuthLoading');
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text> Profile screen </Text>
-        <Button title="Sign out" onPress={() => this.logOut()} />
+        <Button title="Sign out" onPress={this.logOut} />
       </View>
     );
   }
