@@ -12,9 +12,9 @@ import { AuthModule } from '../auth/auth.module';
     TypeOrmModule.forFeature([UserRepository]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'secret123',
+      secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: parseInt(process.env.JWT_EXPIRATION, 10),
       },
     }),
     AuthModule,

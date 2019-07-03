@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { isAuthenticated } from "../../services/authService";
+import React, { Component } from 'react';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { isAuthenticated } from '../../services/authService';
 
 class AuthLoadingScreen extends Component {
   constructor() {
@@ -10,7 +10,7 @@ class AuthLoadingScreen extends Component {
 
   loadApp = async () => {
     const token = await isAuthenticated();
-    this.props.navigation.navigate(token ? "App" : "Auth");
+    this.props.navigation.navigate(token ? 'App' : 'Auth');
   };
 
   render() {
@@ -25,10 +25,10 @@ class AuthLoadingScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default AuthLoadingScreen;

@@ -1,24 +1,51 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, TextInput, Button } from "react-native";
-import { signIn } from "../../services/authService";
+import React, { Component } from 'react';
+import {
+  StyleSheet, ScrollView, View, Text, TextInput, Button, KeyboardAvoidingView,
+} from 'react-native';
+import { Header } from 'react-navigation';
+import { logIn } from '../../services/authService';
 
 class SignInScreen extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
+  }
 
-  signIn = async () => {
-    await signIn();
-    this.props.navigation.navigate("App");
+  logIn = async () => {
+    const { username, password } = this.state;
+    await logIn({ username, password });
+    this.props.navigation.navigate('App');
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Username</Text>
-        <TextInput style={styles.input} />
-        <Text>Password</Text>
-        <TextInput style={styles.input} />
-        <Button title="Sign in" onPress={() => this.signIn()} />
-      </View>
+      <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + 20} behavior="padding">
+        <View style={styles.container}>
+          <View>
+            <Text>Username</Text>
+          </View>
+          <TextInput
+            onChangeText={(username) => this.setState({ username })}
+            style={styles.input}
+            textContentType="username"
+            autoCapitalize="none"
+          />
+          <View>
+            <Text>Password</Text>
+          </View>
+          <TextInput
+            onChangeText={(password) => this.setState({ password })}
+            style={styles.input}
+            secureTextEntry
+            textContentType="password"
+            autoCapitalize="none"
+          />
+          <Button title="Sign in" onPress={this.logIn} />
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -26,17 +53,17 @@ class SignInScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
-    width: "50%",
+    width: '50%',
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 15
-  }
+    marginBottom: 15,
+  },
 });
 
 export default SignInScreen;

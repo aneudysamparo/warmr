@@ -1,18 +1,21 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
-import { signOut } from "../../services/authService";
+import React, { Component } from 'react';
+import {
+  StyleSheet, View, Text, Button,
+} from 'react-native';
+import { logOut } from '../../services/authService';
 
 class ProfileScreen extends Component {
-  signOut = async () => {
-    await signOut();
-    this.props.navigation.navigate("AuthLoading");
+  logOut = async () => {
+    await logOut();
+    const { navigation } = this.props;
+    navigation.navigate('AuthLoading');
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text> Profile screen </Text>
-        <Button title="Sign out" onPress={() => this.signOut()} />
+        <Button title="Sign out" onPress={this.logOut} />
       </View>
     );
   }
@@ -21,10 +24,10 @@ class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default ProfileScreen;

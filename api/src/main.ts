@@ -1,9 +1,16 @@
+/* @TODO Remove dotenv config when we figure out how to inject config values into modules.
+ * Ex: jwt values in auth.module
+ */
+import { config } from 'dotenv';
+config();
+
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './modules/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
+import { httpLogger } from './common/middleware/logger.middleware';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -18,6 +25,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  /* Custom logging */
+  app.use(httpLogger);
 
   /* Security Middleware */
   app.use(helmet());
